@@ -38,6 +38,21 @@ The Express API listens on port `5000` by default. Set `CLIENT_URL` when the Vit
 
 The Vite development server proxies `/api` requests to the Express server. If the browser reports that it cannot connect to the API, check that `npm run dev` started the API and that MongoDB is available; the API exits at startup when the required environment variables are missing or MongoDB cannot connect.
 
+## Deploy to Vercel
+
+Import the repository into Vercel and keep the project root at this repository's root. The Vercel configuration builds the Vite app from `dist`, while the `api` functions route `/api` and `/api/*` requests through the Express backend. The frontend uses the same-origin `/api` URL by default; do not set `VITE_API_URL` to localhost for a deployment.
+
+Add these environment variables in the Vercel project settings for each deployment environment:
+
+- `MONGODB_URI`: a reachable MongoDB Atlas connection string; allow Vercel's network access in Atlas.
+- `JWT_SECRET`: a unique random value of at least 32 characters.
+- `FACULTY_INVITE_CODE`: a private faculty registration code.
+- `ADMIN_EMAIL` and `ADMIN_PASSWORD`: credentials for the initial administrator; `ADMIN_NAME` is optional.
+- `CLIENT_URL`: the deployed app's full HTTPS origin, used in password-reset links. If omitted, the Vercel production URL or deployment URL is used.
+- `SMTP_USER`, `SMTP_PASSWORD`, and `SMTP_FROM` if password-reset email is required. `SMTP_HOST`, `SMTP_PORT`, and `SUPPORT_EMAIL` are optional according to the email setup above.
+
+After setting the variables, redeploy so the build and serverless functions receive them. Verify the backend at `/api/health`; a healthy response reports `"status": "ok"` and `"database": "connected"`. Vercel functions may scale independently, so the in-memory rate limiter is not shared across instances; use a shared rate-limit store for production traffic.
+
 If another healthy CampusFlow API is already listening on `PORT`, a second server startup detects it and skips opening another MongoDB connection or binding the same port. Start `npm run dev` once; when the portal is already running, open its printed URL instead of starting another copy.
 
 Sign-in, registration, and password-reset endpoints have per-IP rate limits. The default limiter uses in-process memory; configure a shared rate-limit store before deploying multiple API instances.

@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -16,17 +18,12 @@ import adminRoutes from "./routes/admin.js";
 import supportRoutes from "./routes/support.js";
 import announcementRoutes from "./routes/announcements.js";
 import { isCampusFlowApiRunning } from "./utils/apiProbe.js";
+import { getAllowedClientOrigins } from "./utils/clientUrl.js";
 
 const app = express();
 const clientPort = process.env.VITE_PORT || "5173";
-
-const allowedClientOrigins = new Set([
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
-  `http://localhost:${clientPort}`,
-  `http://127.0.0.1:${clientPort}`,
-  process.env.CLIENT_URL || "http://localhost:5173",
-]);
+const allowedClientOrigins = getAllowedClientOrigins(clientPort);
+let initializationPromise;
 
 app.use(
   cors({
@@ -45,23 +42,61 @@ app.use(
 
 app.use(express.json({ limit: "8mb" }));
 
-// Check environment variables
-if (!process.env.MONGODB_URI) {
-  console.error("❌ MONGODB_URI is missing in .env");
-  process.exit(1);
+async function initializeBackend() {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is required.");
+  }
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is required.");
+  }
+  if (process.env.JWT_SECRET.length < 32) {
+    throw new Error("JWT_SECRET must contain at least 32 characters.");
+  }
+
+  await mongoose.connect(process.env.MONGODB_URI);
+  await Student.updateMany(
+    { mustChangePassword: { $exists: false } },
+    { $set: { mustChangePassword: true } },
+  );
+
+  if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
+    const email = process.env.ADMIN_EMAIL.toLowerCase();
+    const admin = await Admin.findOne({ email });
+
+    if (!admin) {
+      await Admin.create({
+        name: process.env.ADMIN_NAME || "Campus Administrator",
+        email,
+        password: await bcrypt.hash(process.env.ADMIN_PASSWORD, 12),
+      });
+      console.log("✅ Default Admin Created");
+    }
+  }
 }
 
-if (!process.env.JWT_SECRET) {
-  console.error("❌ JWT_SECRET is missing in .env");
-  process.exit(1);
+mongoose.connection.on("disconnected", () => {
+  initializationPromise = undefined;
+});
+
+async function ensureBackendInitialized() {
+  if (!initializationPromise) {
+    initializationPromise = initializeBackend().catch((error) => {
+      initializationPromise = undefined;
+      throw error;
+    });
+  }
+  await initializationPromise;
 }
 
-if (process.env.JWT_SECRET.length < 32) {
-  console.error("❌ JWT_SECRET must contain at least 32 characters. Use a unique, randomly generated secret.");
-  process.exit(1);
-}
+app.use(async (req, res, next) => {
+  try {
+    await ensureBackendInitialized();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
-// Health Check
 app.get("/api/health", (req, res) => {
   const connected = mongoose.connection.readyState === 1;
   res.status(connected ? 200 : 503).json({
@@ -70,7 +105,6 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/faculty", facultyRoutes);
@@ -82,7 +116,6 @@ app.use("/api", (req, res) => {
   res.status(404).json({ message: "API route not found." });
 });
 
-// Error Handler
 app.use((err, req, res, next) => {
   console.error(err);
 
@@ -117,37 +150,16 @@ async function startServer() {
     } catch (error) {
       console.error("❌ Could not check whether the API is already running.");
       console.error(error.message);
-      process.exit(1);
+      process.exitCode = 1;
+      return;
     }
     if (existingApi) {
       console.log(`ℹ️ CampusFlow API is already running on port ${PORT}; skipping duplicate startup.`);
       return;
     }
 
-    await mongoose.connect(process.env.MONGODB_URI);
-
+    await ensureBackendInitialized();
     console.log("✅ MongoDB Connected");
-
-    await Student.updateMany(
-      { mustChangePassword: { $exists: false } },
-      { $set: { mustChangePassword: true } },
-    );
-
-    if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
-      const email = process.env.ADMIN_EMAIL.toLowerCase();
-
-      const admin = await Admin.findOne({ email });
-
-      if (!admin) {
-        await Admin.create({
-          name: process.env.ADMIN_NAME || "Campus Administrator",
-          email,
-          password: await bcrypt.hash(process.env.ADMIN_PASSWORD, 12),
-        });
-
-        console.log("✅ Default Admin Created");
-      }
-    }
 
     const server = app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
@@ -170,11 +182,16 @@ async function startServer() {
       }
       process.exitCode = 1;
     });
-  } catch (err) {
-    console.error("❌ MongoDB Connection Failed");
-    console.error(err.message);
-    process.exit(1);
+  } catch (error) {
+    console.error("❌ Backend initialization failed.");
+    console.error(error.message);
+    process.exitCode = 1;
   }
 }
 
-startServer();
+const invokedPath = process.argv[1] && pathToFileURL(resolve(process.argv[1])).href;
+if (invokedPath === import.meta.url) {
+  startServer();
+}
+
+export default app;

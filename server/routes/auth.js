@@ -12,6 +12,7 @@ import {
   passwordResetRequestLimiter,
   signInLimiter,
 } from "../middleware/rateLimit.js";
+import { getClientUrl } from "../utils/clientUrl.js";
 import { createMailTransport } from "../utils/mail.js";
 
 const router = Router();
@@ -61,7 +62,7 @@ async function sendPasswordResetEmail(account, role, mailTransport) {
   account.passwordResetOtpExpiresAt = undefined;
   await account.save();
 
-  const resetUrl = new URL("/reset-password", process.env.CLIENT_URL || "http://localhost:5173");
+  const resetUrl = new URL("/reset-password", getClientUrl());
   resetUrl.searchParams.set("token", token);
   resetUrl.searchParams.set("role", role);
   await mailTransport.sendMail({
