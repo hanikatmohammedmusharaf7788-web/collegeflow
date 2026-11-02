@@ -1,0 +1,120 @@
+Attached Element Context from Integrated Browser
+
+Element: div.auth-screen
+
+URL: http://localhost:5176/
+
+HTML Path: div#root > div.auth-screen
+
+Outer HTML:
+```html
+<div class="auth-screen"><div class="auth-backdrop auth-orb-one"></div><div class="auth-backdrop auth-orb-two"></div><section class="auth-card glass-panel"><div class="brand auth-brand"><div class="brand-mark"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path><path d="M22 10v6"></path><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path></svg></div><span>campus<span class="brand-light">flow</span></span></div><div class="auth-heading"><span class="eyebrow"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg> YOUR CAMPUS, CONNECTED</span><h1>Welcome back.</h1><p>Sign in to your student portal.</p></div><div class="auth-role-switch" role="group" aria-label="Choose portal"><button type="button" class="selected">Student</button><button type="button" class="">Faculty</button><button type="button" class="">Admin</button></div><form class="auth-form"><label>College email<input type="email" required="" autocomplete="email" placeholder="you@college.edu" value=""></label><label>Password<span class="auth-password-input"><input required="" autocomplete="current-password" placeholder="Enter your password" type="password" value=""><button type="button" aria-label="Show password"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path><circle cx="12" cy="12" r="3"></circle></svg></button></span></label><button class="primary-button auth-submit">Sign in to your student portal<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></button></form><p class="auth-switch"><button>Forgot password?</button></p><p class="auth-switch">New to CampusFlow? <button type="button"> Create an account</button></p><div class="auth-foot"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg> Secure student access · Your data stays private</div></section><div class="auth-side-note"><span class="auth-decoration">“</span><p>Innovating Minds, Building Futures.</p><small>HANIKAT'S COLLEGE OF ENGINEERING &amp; TECHNOLOGY</small></div></div>
+```
+
+Dimensions:
+- top: -194px
+- left: 0px
+- width: 681px
+- height: 652px
+
+CSS:
+```css
+*, ::before, ::after { --tw-border-spacing-x: 0;
+  --tw-border-spacing-y: 0;
+  --tw-translate-x: 0;
+  --tw-translate-y: 0;
+  --tw-rotate: 0;
+  --tw-skew-x: 0;
+  --tw-skew-y: 0;
+  --tw-scale-x: 1;
+  --tw-scale-y: 1;
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
+  --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
+  --tw-ring-offset-color: #fff;
+  --tw-ring-color: rgb(59 130 246 / 0.5);
+  --tw-ring-offset-shadow: 0 0 #0000;
+  --tw-ring-shadow: 0 0 #0000;
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ; }
+*, ::before, ::after { box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+  border-color: #e5e7eb; /* 2 */ }
+* { box-sizing: border-box; }
+.auth-screen { position: relative; display: grid; place-items: center; min-height: 100vh; overflow: hidden; padding: 35px 20px; background: radial-gradient(ellipse at 13% 18%, #e3eaff 0, transparent 32%), radial-gradient(ellipse at 87% 82%, #e9e5ff 0, transparent 32%), #f4f7fc; }
+.auth-screen { background: radial-gradient(ellipse at 13% 18%, #e3f0e5 0, transparent 32%), radial-gradient(ellipse at 87% 82%, #e7f2e9 0, transparent 32%), #f5f8f6; }
+
+/* Pseudo-elements */
+::before, ::after { --tw-content: ''; }
+
+/* Inherited */
+body { color: var(--text) }
+html, :host { line-height: 1.5; tab-size: 4 }
+:root { font-family: "DM Sans", sans-serif; color: #23332b }
+
+/* Resolved values */
+padding: 35px 20px;
+border: 0px solid rgb(229, 231, 235);
+align-items: center;
+background-attachment: scroll, scroll, scroll;
+background-clip: border-box, border-box, border-box;
+background-color: rgb(245, 248, 246);
+background-image: radial-gradient(at 13% 18%, rgb(227, 240, 229) 0px, rgba(0, 0, 0, 0) 32%), radial-gradient(at 87% 82%, rgb(231, 242, 233) 0px, rgba(0, 0, 0, 0) 32%), none;
+background-origin: padding-box, padding-box, padding-box;
+background-position-x: 0%, 0%, 0%;
+background-position-y: 0%, 0%, 0%;
+background-repeat: repeat, repeat, repeat;
+background-size: auto, auto, auto;
+box-sizing: border-box;
+color: rgb(35, 51, 43);
+display: grid;
+font-family: "DM Sans", sans-serif;
+font-feature-settings: normal;
+height: 652.26px;
+justify-items: center;
+line-height: 24px;
+min-height: 400px;
+overflow-x: hidden;
+overflow-y: hidden;
+position: relative;
+tab-size: 4;
+unicode-bidi: isolate /*UA*/;
+width: 680.96px;
+
+/* CSS variables */
+--text: #23332b;
+```
